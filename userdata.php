@@ -1,22 +1,26 @@
 <?php
-$serverName = "127.0.0.1"; // specify your SQL Server host
+$serverName = getenv('SQLSRV_SERVER') ?: '127.0.0.1';
 $connectionOptions = [
-    "Database" => "ICCLdb",
-    "Uid" => "iccldbuser",
-    "PWD" => "JqewefqxSKHXisQ",
-    "CharacterSet" => "UTF-8"
+    "Database" => getenv('SQLSRV_DATABASE') ?: 'ICCLdb',
+    "Uid" => getenv('SQLSRV_USER') ?: 'iccldbuser',
+    "PWD" => getenv('SQLSRV_PASSWORD') ?: 'JqewefqxSKHXisQ',
+    "Encrypt" => 1, // 支援加密
+    "TrustServerCertificate" => 1, // 不檢查CA（自簽證書可用）
+    "CharacterSet" => "UTF-8" // 中文環境建議加
 ];
 
 // Connect using sqlsrv extension
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true));
+    error_log('SQL Server connection failed: ' . print_r(sqlsrv_errors(), true));
+    die('Database connection failed.');
 }
 
 $query = "SELECT * FROM UserData";
 $stmt = sqlsrv_query($conn, $query);
 if ($stmt === false) {
-    die(print_r(sqlsrv_errors(), true));
+    error_log('Query failed: ' . print_r(sqlsrv_errors(), true));
+    die('Query failed.');
 }
 
 echo "<table border='1'>\n";
