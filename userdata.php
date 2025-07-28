@@ -5,12 +5,11 @@ $connectionOptions = [
     "Database" => getenv('SQLSRV_DATABASE') ?: 'ICCLdb',
     "Uid" => getenv('SQLSRV_USER') ?: 'iccldbuser',
     "PWD" => getenv('SQLSRV_PASSWORD') ?: 'JqewefqxSKHXisQ',
-    "Encrypt" => 1, // 支援加密
-    "TrustServerCertificate" => 1, // 不檢查CA（自簽證書可用）
-    "CharacterSet" => "UTF-8" // 中文環境建議加
+    "Encrypt" => 1,
+    "TrustServerCertificate" => 1,
+    "CharacterSet" => 'UTF-8'
 ];
 
-// Connect using sqlsrv extension
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 if ($conn === false) {
     error_log('SQL Server connection failed: ' . print_r(sqlsrv_errors(), true));
@@ -24,22 +23,78 @@ if ($stmt === false) {
     die('Query failed.');
 }
 
-echo "<!DOCTYPE html>\n";
-echo "<html><head><meta charset='UTF-8'></head><body>\n";
-echo "<table border='1'>\n";
-while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
-    echo "<tr>";
-    foreach ($row as $value) {
-        if ($value instanceof DateTime) {
-            $value = $value->format('Y-m-d');
-        }
-        echo "<td>" . htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8') . "</td>";
-    }
-    echo "</tr>\n";
+$metadata = sqlsrv_field_metadata($stmt);
+if ($metadata === false) {
+    error_log('Metadata retrieval failed: ' . print_r(sqlsrv_errors(), true));
+    die('Metadata retrieval failed.');
 }
-echo "</table>\n";
-echo "</body></html>\n";
 
+?>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+        }
+        .table-container {
+            overflow-x: auto;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            min-width: 600px;
+            background-color: #fff;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #fafafa;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        @media (max-width: 600px) {
+            th, td {
+                padding: 8px 10px;
+                font-size: 14px;
+            }
+            table {
+                min-width: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="table-container">
+<table>
+    <tr>
+        <?php foreach ($metadata as $field): ?>
+            <th><?= htmlspecialchars((string)($field['Name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></th>
+        <?php endforeach; ?>
+    </tr>
+    <?php while (($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) !== null): ?>
+    <tr>
+        <?php foreach ($row as $value): ?>
+            <?php if ($value instanceof DateTime) { $value = $value->format('Y-m-d'); } ?>
+            <td><?= htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8') ?></td>
+        <?php endforeach; ?>
+    </tr>
+    <?php endwhile; ?>
+</table>
+</div>
+</body>
+</html>
+<?php
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
 ?>
