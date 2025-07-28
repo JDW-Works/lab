@@ -1,21 +1,26 @@
 <?php
-$serverName = "YOUR_SERVER_NAME"; // specify your SQL Server host
+$serverName = getenv('SQLSRV_SERVER') ?: 'YOUR_SERVER_NAME';
 $connectionOptions = [
-    "Database" => "ICCLdb",
-    "Uid" => "iccldbuser",
-    "PWD" => "JqewefqxSKHXisQ"
+    "Database" => getenv('SQLSRV_DATABASE') ?: 'ICCLdb',
+    "Uid" => getenv('SQLSRV_USER') ?: 'iccldbuser',
+    "PWD" => getenv('SQLSRV_PASSWORD') ?: 'JqewefqxSKHXisQ',
+    // Allow encrypted connections but trust the certificate by default
+    "Encrypt" => 1,
+    "TrustServerCertificate" => 1
 ];
 
 // Connect using sqlsrv extension
 $conn = sqlsrv_connect($serverName, $connectionOptions);
 if ($conn === false) {
-    die(print_r(sqlsrv_errors(), true));
+    error_log('SQL Server connection failed: ' . print_r(sqlsrv_errors(), true));
+    die('Database connection failed.');
 }
 
 $query = "SELECT * FROM UserData";
 $stmt = sqlsrv_query($conn, $query);
 if ($stmt === false) {
-    die(print_r(sqlsrv_errors(), true));
+    error_log('Query failed: ' . print_r(sqlsrv_errors(), true));
+    die('Query failed.');
 }
 
 echo "<table border='1'>\n";
