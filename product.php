@@ -120,6 +120,126 @@ $products = [
         'tagline' => '防曬潤色一次完成',
         'description' => '兼具防曬與校色功能，全天候保護肌膚。',
         'price' => 'NT$950'
+    ],
+    [
+        'name' => '經典護手霜',
+        'tagline' => '給雙手最溫柔的呵護',
+        'description' => '滋潤配方讓雙手柔嫩不乾裂，散發淡雅香氣。',
+        'price' => 'NT$420'
+    ],
+    [
+        'name' => '閃耀髮油',
+        'tagline' => '秀髮柔順亮麗',
+        'description' => '富含修護成分，改善毛躁並增添光澤。',
+        'price' => 'NT$680'
+    ],
+    [
+        'name' => '絲柔修容',
+        'tagline' => '立體小臉一畫即現',
+        'description' => '絲滑粉質自然暈染，輕鬆勾勒輪廓。',
+        'price' => 'NT$780'
+    ],
+    [
+        'name' => '極致眼線',
+        'tagline' => '打造深邃電眼',
+        'description' => '防水抗油配方，線條俐落持久。',
+        'price' => 'NT$520'
+    ],
+    [
+        'name' => '持久指甲貼',
+        'tagline' => '輕鬆擁有精緻美甲',
+        'description' => '貼紙式設計方便快速，持久不易剝落。',
+        'price' => 'NT$360'
+    ],
+    [
+        'name' => '清透妝前水',
+        'tagline' => '喚醒肌膚水潤感',
+        'description' => '噴霧式質地迅速吸收，提升妝容服貼度。',
+        'price' => 'NT$660'
+    ],
+    [
+        'name' => '輕盈遮瑕筆',
+        'tagline' => '局部修飾必備',
+        'description' => '筆狀設計精準遮蓋瑕疵，妝感自然不卡粉。',
+        'price' => 'NT$500'
+    ],
+    [
+        'name' => '絲滑潤唇膏',
+        'tagline' => '修護乾燥雙唇',
+        'description' => '添加天然油脂，舒緩脫皮與乾裂。',
+        'price' => 'NT$350'
+    ],
+    [
+        'name' => '晶亮唇釉',
+        'tagline' => '水光感立現',
+        'description' => '光澤質地不黏膩，讓雙唇飽滿亮麗。',
+        'price' => 'NT$720'
+    ],
+    [
+        'name' => '雙色頰彩',
+        'tagline' => '輕鬆打造漸層效果',
+        'description' => '兩色搭配自然修飾臉部輪廓。',
+        'price' => 'NT$620'
+    ],
+    [
+        'name' => '微光修容棒',
+        'tagline' => '細緻光澤提亮',
+        'description' => '膏狀質地滑順好推，增添自然光采。',
+        'price' => 'NT$650'
+    ],
+    [
+        'name' => '曜石眼線膠',
+        'tagline' => '濃黑不暈染',
+        'description' => '膠狀質地持色度佳，畫出迷人眼神。',
+        'price' => 'NT$560'
+    ],
+    [
+        'name' => '速乾指彩',
+        'tagline' => '快速上色不等待',
+        'description' => '獨特配方縮短乾燥時間，色澤飽和。',
+        'price' => 'NT$300'
+    ],
+    [
+        'name' => '絲緞蜜粉餅',
+        'tagline' => '完美定妝柔焦',
+        'description' => '細緻粉質貼合肌膚，呈現無暇霧面妝感。',
+        'price' => 'NT$760'
+    ],
+    [
+        'name' => '鑽石高光粉',
+        'tagline' => '打造奢華光澤',
+        'description' => '閃耀珠光粒子，令肌膚立體光采。',
+        'price' => 'NT$980'
+    ],
+    [
+        'name' => '精緻修眉刀',
+        'tagline' => '輕鬆整理眉型',
+        'description' => '刀片細緻安全，快速修整雜毛。',
+        'price' => 'NT$150'
+    ],
+    [
+        'name' => '柔亮睫毛底膏',
+        'tagline' => '增加睫毛濃密度',
+        'description' => '打底配方拉長並保護睫毛，讓睫毛膏更服貼。',
+        'price' => 'NT$480'
+    ],
+    [
+        'name' => '輕盈眉粉',
+        'tagline' => '自然暈染眉型',
+        'description' => '細緻粉質持久著色，打造柔和線條。',
+        'price' => 'NT$420'
+    ],
+    [
+        'name' => '保濕噴霧',
+        'tagline' => '隨時補水救星',
+        'description' => '細緻霧化顆粒迅速滋潤，妝前妝後皆適用。',
+        'price' => 'NT$520'
+    ],
+    [
+        'name' => '舒緩卸妝油',
+        'tagline' => '溫和帶走彩妝',
+        'description' => '植物油成分溫和溶解彩妝與髒汙，洗後不緊繃。',
+        'price' => 'NT$880'
     ]
 ];
 ?>
@@ -136,13 +256,20 @@ $products = [
             text-align: center;
             padding: 40px;
         }
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
         .product {
             background-color: #fff;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
+            margin: 20px;
+            box-sizing: border-box;
+            flex: 0 0 calc(33.333% - 40px);
+            max-width: calc(33.333% - 40px);
         }
         .banner {
             background: linear-gradient(90deg, #ffc107, #ff5722);
@@ -150,6 +277,13 @@ $products = [
             padding: 30px;
             font-size: 32px;
             margin-bottom: 40px;
+        }
+        .ad-banner {
+            background: linear-gradient(90deg, #4caf50, #8bc34a);
+            color: #fff;
+            padding: 25px;
+            font-size: 28px;
+            margin-top: 40px;
         }
         h1 {
             color: #e91e63;
@@ -177,14 +311,17 @@ $products = [
 </head>
 <body>
     <div class="banner">超值優惠！全部商品第二件八折</div>
+    <div class="product-grid">
     <?php foreach ($products as $item): ?>
-    <div class="product">
-        <h1><?= htmlspecialchars($item['name']) ?></h1>
-        <h2><?= htmlspecialchars($item['tagline']) ?></h2>
-        <p class="description"><?= htmlspecialchars($item['description']) ?></p>
-        <p class="price">價格：<?= htmlspecialchars($item['price']) ?></p>
-        <a href="#" class="buy-button">立即購買</a>
-    </div>
+        <div class="product">
+            <h1><?= htmlspecialchars($item['name']) ?></h1>
+            <h2><?= htmlspecialchars($item['tagline']) ?></h2>
+            <p class="description"><?= htmlspecialchars($item['description']) ?></p>
+            <p class="price">價格：<?= htmlspecialchars($item['price']) ?></p>
+            <a href="#" class="buy-button">立即購買</a>
+        </div>
     <?php endforeach; ?>
+    </div>
+    <div class="ad-banner">會員獨享滿額免運</div>
 </body>
 </html>
