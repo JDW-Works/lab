@@ -17,7 +17,7 @@ if ($conn === false) {
 }
 
 // 分頁與搜尋設定
-$pageSize = 10;
+$pageSize = 15;
 $page = max(1, intval($_GET['page'] ?? 1));
 $search = $_GET['u_name'] ?? '';
 $offset = ($page - 1) * $pageSize;
@@ -66,9 +66,28 @@ if ($metadata === false) {
         }
         .search-box {
             margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-box input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .search-box button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
         }
         .pagination {
             margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         .pagination a {
             margin: 0 5px;
@@ -76,6 +95,9 @@ if ($metadata === false) {
         }
         .pagination a.active {
             font-weight: bold;
+        }
+        .pagination .ellipsis {
+            padding: 0 5px;
         }
         table {
             border-collapse: collapse;
@@ -128,9 +150,22 @@ if ($metadata === false) {
 </table>
 </div>
 <div class="pagination">
-<?php for ($i = 1; $i <= $totalPages; $i++): ?>
-    <a href="?page=<?= $i ?>&u_name=<?= urlencode($search) ?>"<?= $i == $page ? ' class="active"' : '' ?>><?= $i ?></a>
-<?php endfor; ?>
+<?php
+if ($totalPages > 0):
+    $start = max(1, min($page - 1, $totalPages - 3));
+    $end = min($start + 3, $totalPages);
+    if ($start > 1) {
+        echo '<span class="ellipsis">...</span>';
+    }
+    for ($i = $start; $i <= $end; $i++) {
+        $active = $i == $page ? ' class="active"' : '';
+        echo '<a href="?page=' . $i . '&u_name=' . urlencode($search) . '"' . $active . '>' . $i . '</a>';
+    }
+    if ($end < $totalPages) {
+        echo '<span class="ellipsis">...</span>';
+    }
+endif;
+?>
 </div>
 </body>
 </html>
