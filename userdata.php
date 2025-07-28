@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: text/html; charset=UTF-8');
 $serverName = getenv('SQLSRV_SERVER') ?: '127.0.0.1';
 $connectionOptions = [
     "Database" => getenv('SQLSRV_DATABASE') ?: 'ICCLdb',
@@ -23,6 +24,8 @@ if ($stmt === false) {
     die('Query failed.');
 }
 
+echo "<!DOCTYPE html>\n";
+echo "<html><head><meta charset='UTF-8'></head><body>\n";
 echo "<table border='1'>\n";
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     echo "<tr>";
@@ -35,6 +38,7 @@ while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     echo "</tr>\n";
 }
 echo "</table>\n";
+echo "</body></html>\n";
 
 sqlsrv_free_stmt($stmt);
 sqlsrv_close($conn);
