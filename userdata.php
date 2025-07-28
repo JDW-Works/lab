@@ -1,12 +1,12 @@
 <?php
-$serverName = getenv('SQLSRV_SERVER') ?: 'YOUR_SERVER_NAME';
+$serverName = getenv('SQLSRV_SERVER') ?: '127.0.0.1';
 $connectionOptions = [
     "Database" => getenv('SQLSRV_DATABASE') ?: 'ICCLdb',
     "Uid" => getenv('SQLSRV_USER') ?: 'iccldbuser',
     "PWD" => getenv('SQLSRV_PASSWORD') ?: 'JqewefqxSKHXisQ',
-    // Allow encrypted connections but trust the certificate by default
-    "Encrypt" => 1,
-    "TrustServerCertificate" => 1
+    "Encrypt" => 1, // 支援加密
+    "TrustServerCertificate" => 1, // 不檢查CA（自簽證書可用）
+    "CharacterSet" => "UTF-8" // 中文環境建議加
 ];
 
 // Connect using sqlsrv extension
@@ -27,7 +27,10 @@ echo "<table border='1'>\n";
 while ($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
     echo "<tr>";
     foreach ($row as $value) {
-        echo "<td>" . htmlspecialchars((string)$value) . "</td>";
+        if ($value instanceof DateTime) {
+            $value = $value->format('Y-m-d');
+        }
+        echo "<td>" . htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8') . "</td>";
     }
     echo "</tr>\n";
 }
