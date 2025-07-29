@@ -23,7 +23,7 @@ $search = $_GET['p_name'] ?? '';
 $offset = ($page - 1) * $pageSize;
 
 // 計算符合條件的資料筆數
-$countQuery = "SELECT COUNT(*) AS cnt FROM Pumpdata WHERE p_name LIKE ?";
+$countQuery = "SELECT COUNT(*) AS cnt FROM PumpData WHERE p_name LIKE ?";
 $countStmt = sqlsrv_query($conn, $countQuery, ['%' . $search . '%']);
 if ($countStmt === false) {
     error_log('Count query failed: ' . print_r(sqlsrv_errors(), true));
@@ -35,7 +35,7 @@ sqlsrv_free_stmt($countStmt);
 $totalPages = $totalRows > 0 ? (int)ceil($totalRows / $pageSize) : 1;
 
 // 取得目前頁面的資料
-$query = "SELECT * FROM Pumpdata WHERE p_name LIKE ? ORDER BY (SELECT NULL) OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+$query = "SELECT * FROM PumpData WHERE p_name LIKE ? ORDER BY (SELECT NULL) OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 $stmt = sqlsrv_query($conn, $query, ['%' . $search . '%', $offset, $pageSize]);
 if ($stmt === false) {
     error_log('Query failed: ' . print_r(sqlsrv_errors(), true));
