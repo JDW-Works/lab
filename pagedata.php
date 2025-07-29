@@ -47,6 +47,16 @@ if ($metadata === false) {
     error_log('Metadata retrieval failed: ' . print_r(sqlsrv_errors(), true));
     die('Metadata retrieval failed.');
 }
+
+// 欄位名稱對應中文
+$fieldTranslations = [
+    'PageID'    => '頁面ID',
+    'PageName'  => '頁面名稱',
+    'Title'     => '標題',
+    'Content'   => '內容',
+    'CreatedAt' => '建立時間',
+    'UpdatedAt' => '更新時間'
+];
 ?>
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -160,7 +170,8 @@ if ($metadata === false) {
 <table>
     <tr>
         <?php foreach ($metadata as $field): ?>
-            <th><?= htmlspecialchars((string)($field['Name'] ?? ''), ENT_QUOTES, 'UTF-8') ?></th>
+            <?php $name = $field['Name'] ?? ''; ?>
+            <th><?= htmlspecialchars($fieldTranslations[$name] ?? $name, ENT_QUOTES, 'UTF-8') ?></th>
         <?php endforeach; ?>
     </tr>
     <?php while (($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) !== null): ?>
