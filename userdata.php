@@ -56,25 +56,44 @@ if ($metadata === false) {
     <title>User Data</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
+            font-family: "Helvetica Neue", Arial, sans-serif;
+            background-color: #f5f7fa;
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
         }
+
+        .container {
+            max-width: 960px;
+            margin: auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+            margin-top: 0;
+        }
+
         .table-container {
             overflow-x: auto;
         }
+
         .search-box {
             margin-bottom: 20px;
             display: flex;
             gap: 10px;
         }
+
         .search-box input[type="text"] {
             flex: 1;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         .search-box button {
             padding: 8px 16px;
             border: none;
@@ -83,39 +102,60 @@ if ($metadata === false) {
             color: #fff;
             cursor: pointer;
         }
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .pagination a {
-            margin: 0 5px;
-            text-decoration: none;
-        }
-        .pagination a.active {
-            font-weight: bold;
-        }
-        .pagination .ellipsis {
-            padding: 0 5px;
-        }
+
         table {
             border-collapse: collapse;
             width: 100%;
             min-width: 600px;
             background-color: #fff;
+            border-radius: 4px;
+            overflow: hidden;
         }
+
         th, td {
             padding: 12px 15px;
-            border: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
             text-align: left;
         }
+
         th {
             background-color: #fafafa;
         }
+
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+
+        .pagination a {
+            color: #4CAF50;
+            border: 1px solid #4CAF50;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+        }
+
+        .pagination a.active,
+        .pagination a:hover {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+
+        .pagination span {
+            padding: 4px 8px;
+        }
+
         @media (max-width: 600px) {
             th, td {
                 padding: 8px 10px;
@@ -128,6 +168,8 @@ if ($metadata === false) {
     </style>
 </head>
 <body>
+<div class="container">
+<h1>User Data</h1>
 <form method="get" class="search-box">
     <input type="text" name="u_name" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="搜尋名稱">
     <button type="submit">搜尋</button>
@@ -152,20 +194,23 @@ if ($metadata === false) {
 <div class="pagination">
 <?php
 if ($totalPages > 0):
-    $start = max(1, min($page - 1, $totalPages - 3));
-    $end = min($start + 3, $totalPages);
-    if ($start > 1) {
-        echo '<span class="ellipsis">...</span>';
+    if ($page > 1) {
+        echo '<a href="?page=1&u_name=' . urlencode($search) . '">第一頁</a>';
+        echo '<a href="?page=' . ($page - 1) . '&u_name=' . urlencode($search) . '">上一頁</a>';
     }
+    $start = max(1, min($page - 2, $totalPages - 4));
+    $end = min($start + 4, $totalPages);
     for ($i = $start; $i <= $end; $i++) {
         $active = $i == $page ? ' class="active"' : '';
         echo '<a href="?page=' . $i . '&u_name=' . urlencode($search) . '"' . $active . '>' . $i . '</a>';
     }
-    if ($end < $totalPages) {
-        echo '<span class="ellipsis">...</span>';
+    if ($page < $totalPages) {
+        echo '<a href="?page=' . ($page + 1) . '&u_name=' . urlencode($search) . '">下一頁</a>';
+        echo '<a href="?page=' . $totalPages . '&u_name=' . urlencode($search) . '">最後一頁</a>';
     }
 endif;
 ?>
+</div>
 </div>
 </body>
 </html>

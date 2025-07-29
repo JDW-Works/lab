@@ -3,7 +3,9 @@
 ## Running `userdata.php`
 
 This repository includes a simple PHP script (`userdata.php`) that
-connects to a SQL Server instance using the `sqlsrv` extension.
+connects to a SQL Server instance using the `sqlsrv` extension. The
+interface provides a searchable data table with improved styling and
+pagination controls.
 Set the following environment variables before running the script:
 
 ```
