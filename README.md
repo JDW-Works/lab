@@ -22,3 +22,11 @@ php userdata.php
 If the connection fails, check the server name, network accessibility and
 credentials. Connection errors are logged via `error_log` for easier
 troubleshooting.
+
+## Running `pumpdata.php`
+
+The repository also provides `pumpdata.php`, which queries the `Pumpdata` table using the same connection parameters. Use the same environment variables as above and run:
+
+```
+php pumpdata.php
+```
