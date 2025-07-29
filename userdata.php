@@ -2,6 +2,7 @@
 require_once('lib/link.php');
 header('Content-Type: text/html; charset=UTF-8');
 $conn = $DB->getConn();
+// this is test cool
 
 // 新增資料處理
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['u_name'])) {
