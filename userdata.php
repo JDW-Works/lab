@@ -61,6 +61,14 @@ if ($metadata === false) {
             margin: 0;
             padding: 20px;
         }
+        .content-wrapper {
+            background-color: #fff;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
         .table-container {
             overflow-x: auto;
         }
@@ -87,16 +95,31 @@ if ($metadata === false) {
             margin-top: 20px;
             display: flex;
             justify-content: center;
-            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
         }
-        .pagination a {
-            margin: 0 5px;
+        .pagination a,
+        .pagination span {
+            padding: 6px 12px;
             text-decoration: none;
+            border-radius: 4px;
+            background-color: #4CAF50;
+            color: #fff;
         }
-        .pagination a.active {
+        .pagination a:hover {
+            background-color: #45a049;
+        }
+        .pagination .active {
+            background-color: #2e7d32;
             font-weight: bold;
         }
+        .pagination .disabled {
+            background-color: #9e9e9e;
+            pointer-events: none;
+        }
         .pagination .ellipsis {
+            background-color: transparent;
+            color: #555;
             padding: 0 5px;
         }
         table {
@@ -128,6 +151,7 @@ if ($metadata === false) {
     </style>
 </head>
 <body>
+<div class="content-wrapper">
 <form method="get" class="search-box">
     <input type="text" name="u_name" value="<?= htmlspecialchars($search, ENT_QUOTES, 'UTF-8') ?>" placeholder="搜尋名稱">
     <button type="submit">搜尋</button>
@@ -152,6 +176,12 @@ if ($metadata === false) {
 <div class="pagination">
 <?php
 if ($totalPages > 0):
+    if ($page > 1) {
+        echo '<a href="?page=' . ($page - 1) . '&u_name=' . urlencode($search) . '" class="prev">&laquo; 上一頁</a>';
+    } else {
+        echo '<span class="disabled prev">&laquo; 上一頁</span>';
+    }
+
     $start = max(1, min($page - 1, $totalPages - 3));
     $end = min($start + 3, $totalPages);
     if ($start > 1) {
@@ -164,8 +194,15 @@ if ($totalPages > 0):
     if ($end < $totalPages) {
         echo '<span class="ellipsis">...</span>';
     }
+
+    if ($page < $totalPages) {
+        echo '<a href="?page=' . ($page + 1) . '&u_name=' . urlencode($search) . '" class="next">下一頁 &raquo;</a>';
+    } else {
+        echo '<span class="disabled next">下一頁 &raquo;</span>';
+    }
 endif;
 ?>
+</div>
 </div>
 </body>
 </html>
